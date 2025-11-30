@@ -74,12 +74,12 @@ impl Day4 {
             .collect();
 
         let cols = grid[0].len();
+        let mut count = 0;
 
         let corner_pairs = vec![
             ((0, 0),(2, 2)),((0, 2),(2, 0))
         ];
 
-        let mut found_shapes = 0;
         for row_window in grid.windows(3) {
             if row_window.len() < 3 {
                 continue;
@@ -87,20 +87,19 @@ impl Day4 {
             for col in 0..cols - 2 {
                 // filter X-MAS shape -> always have A at center
                 if row_window[1][col + 1] == b'A' {
-                    // always have two adjacent M and two adjacent S corners
+                    // always have two opposite corners M and S
                     if corner_pairs.iter().all(|&((r1, c1), (r2, c2))| {
                         let corner1 = row_window[r1][col + c1];
                         let corner2 = row_window[r2][col + c2];
                         (corner1 == b'M' && corner2 == b'S') ||
                         (corner1 == b'S' && corner2 == b'M')
                     }) {
-                        found_shapes += 1;
+                        count += 1;
                     }
                 }
             }
         }
-        
 
-        found_shapes.to_string()
+        count.to_string()
     }
 }
